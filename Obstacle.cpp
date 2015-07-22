@@ -31,8 +31,12 @@ int Obstacle::getSprite()
 	return sprite;
 }
 
-void Obstacle::reset()
+void Obstacle::reset()//less than ideal solution, needs either significant tweaking or a full overhaul
 {
+
+	xPos = agk::Random(105, 205) * 10;//multiply by a constant to force them to space out
+	yPos = agk::Random(0, 72) * 10;
+
 	int i = agk::Random(0, 99);
 	if (i < 30)
 	{
@@ -43,8 +47,6 @@ void Obstacle::reset()
 		type = 0;
 		agk::SetSpriteColor(sprite, 0, 255, 0, 255);
 	}
-	xPos = agk::Random(1050, 2048);
-	yPos = agk::Random(0, 718);
 }
 
 int Obstacle::getType()

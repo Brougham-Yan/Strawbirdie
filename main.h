@@ -23,6 +23,7 @@ class app
 		void Loop( void );
 		void End( void );
 		void CheckCollisions();
+		void newGame();
 		void gameOver();
 };
 

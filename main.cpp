@@ -11,12 +11,12 @@ const int numberObstacles = 30; //number of obstacles allowed on screen at once;
 float Aspect = 0.0;
 player *p1;
 Obstacle *obstacles[numberObstacles];
-bool endGame = false;//tells if you're at game over
 int gameMode = 0;//what gamemode you're in
 std::clock_t start;//start time of each day
 double duration;//duration of the day
 int dayLength = 60;//seconds in each day
 int timeRemaining;
+int selection;//used in menus and such
 
 void app::Begin(void)
 {
@@ -24,8 +24,9 @@ void app::Begin(void)
 	agk::SetVirtualResolution (1024, 768);
 	agk::SetClearColor( 151,170,204 ); // light blue
 	agk::SetSyncRate(60,0);//max FPS?
-	agk::SetScissor(0,0,0,0);
+	agk::SetScissor(0,0,0,0);//???
 	agk::SetRandomSeed(agk::GetMilliseconds()); //seed the RNG based on system clock
+	selection = 0;
 }
 
 void app::Loop (void)
@@ -35,22 +36,52 @@ void app::Loop (void)
 	{
 	case 0://main menu
 		agk::Print("Main Menu");
-		agk::Print("Press space to start");
-		if (agk::GetRawKeyState(40) == 1)
-			newGame();
+		switch (selection)
+		{
+		case 0:
+			agk::Print("Press space to start");
+			if (agk::GetRawKeyPressed(32) == 1)
+			{
+				newGame(1);
+				selection = 0;
+			}
+			break;
+		case 1:
+			agk::Print("Press space for endless mode");
+			if (agk::GetRawKeyPressed(32) == 1)
+			{
+				newGame(5);
+				selection = 0;
+			}
+			break;
+		case 2:
+			agk::Print("Press space for options");
+			if (agk::GetRawKeyPressed(32) == 1)
+			{
+				gameMode = 4;
+				selection = 0;
+			}
+			break;
+		}
+
+		if (agk::GetRawKeyPressed(38) == 1)
+			selection--;
+		if (agk::GetRawKeyPressed(40) == 1)
+			selection++;
+		if (selection < 0)
+			selection = 2;
+		else if (selection > 2)
+			selection = 0;
+
 		break;
 
-
-	case 1://in game
-		if (!endGame)
+	case 1://normal game
+		p1->update();
+		for (int i = 0; i < numberObstacles; i++)
 		{
-			p1->update();
-			for (int i = 0; i < numberObstacles; i++)
-			{
-				obstacles[i]->update();
-			}
-			CheckCollisions();
+			obstacles[i]->update();
 		}
+		CheckCollisions();
 		duration = (std::clock() - start) / (double)CLOCKS_PER_SEC;
 		timeRemaining = dayLength - (int)duration;
 		if (timeRemaining < 0)
@@ -60,16 +91,43 @@ void app::Loop (void)
 		}
 		agk::Print(timeRemaining);
 		agk::Print(p1->getScore());
-		if (p1->getHealth() > 0)
-			agk::Print(p1->getHealth());
-		else
-			gameMode = 3;//game over
+		agk::Print(p1->getHealth());
+
 		break;
 	case 2:
 		agk::Print("Day Over");
 		break;
 	case 3:
 		agk::Print("Game Over");
+		agk::Print("Press space to return to the main menu");
+		if (agk::GetRawKeyPressed(32) == 1)
+			gameMode = 0;
+		break;
+	case 4://options
+		agk::Print("Options");
+		switch (selection)
+		{
+		case 0:
+			agk::Print("Press space to return to the main menu");
+			if (agk::GetRawKeyPressed(32) == 1)
+			{
+				selection = 0;
+				gameMode = 0;
+			}
+			break;
+		}
+		break;
+	case 5://endless
+		p1->update();
+		for (int i = 0; i < numberObstacles; i++)
+		{
+			obstacles[i]->update();
+		}
+		CheckCollisions();
+		duration = (std::clock() - start) / (double)CLOCKS_PER_SEC;		
+		agk::Print((int)duration);
+		agk::Print(p1->getScore());
+		agk::Print(p1->getHealth());
 		break;
 	}
 
@@ -108,7 +166,7 @@ void app::CheckCollisions()
 	}
 }
 
-void app::newGame()
+void app::newGame(int i)
 {
 	p1 = new player();
 
@@ -116,7 +174,7 @@ void app::newGame()
 	{
 		obstacles[i] = new Obstacle();
 	}
-	gameMode = 1;
+	gameMode = i;
 	start = std::clock();
 }
 
@@ -124,9 +182,8 @@ void app::gameOver()
 {
 	for (int i = 0; i < numberObstacles; i++)
 	{
-		delete obstacles[i];
+		obstacles[i] -> ~Obstacle();
 	}
-	p1->updateSprite(0);
-	agk::Print("Game Over");
-	endGame = true;
+	p1 -> ~player();
+	gameMode = 3;
 }

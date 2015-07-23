@@ -7,6 +7,7 @@ player::player()
 	speed = 5;
 	sprite = agk::CreateSprite(0);
 	score = 0;
+	size = 100;
 	agk::SetSpriteSize(sprite, 100, -1);
 	agk::SetSpriteShape(sprite, 2);
 	health = 3;

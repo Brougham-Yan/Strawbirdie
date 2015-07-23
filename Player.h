@@ -9,6 +9,7 @@ private:
 	int score;
 	//form
 	int health;
+	int size;
 	//food
 public:
 	player();

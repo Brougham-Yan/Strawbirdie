@@ -3,6 +3,7 @@
 Obstacle::Obstacle()
 {
 	speed = 5; //temporary
+	speedMultiplier = 100;
 	sprite = agk::CreateSprite(0);
 	agk::SetSpriteSize(sprite, 25, -1);
 	agk::SetSpriteShape(sprite, 2);
@@ -18,8 +19,8 @@ Obstacle::~Obstacle()
 
 void Obstacle::update()
 {
-	xPos -= speed;
-	if (xPos < -15)
+	xPos -= ((speed * speedMultiplier) / 100);
+	if (xPos < -20)
 	{
 		reset();
 	}
@@ -57,4 +58,9 @@ int Obstacle::getType()
 int Obstacle::getXPos()
 {
 	return xPos;
+}
+
+void Obstacle::setSpeedMultiplier(int i)
+{
+	speedMultiplier = i;
 }

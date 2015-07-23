@@ -21,4 +21,6 @@ public:
 	void loseHealth(int);
 	int getHealth();
 	void updateSprite(int);
+	void loseSize(int);
+	void gainSize(int);
 };

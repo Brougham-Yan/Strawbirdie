@@ -6,6 +6,7 @@ private:
 	int type;
 	int sprite;
 	int speed;
+	int speedMultiplier;
 	int yPos;
 	int xPos;
 public:
@@ -16,4 +17,5 @@ public:
 	void reset();
 	int getType();
 	int getXPos();
+	void setSpeedMultiplier(int);
 };

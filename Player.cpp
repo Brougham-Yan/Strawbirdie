@@ -8,7 +8,7 @@ player::player()
 	sprite = agk::CreateSprite(0);
 	score = 0;
 	size = 100;
-	agk::SetSpriteSize(sprite, 100, -1);
+	agk::SetSpriteSize(sprite, size, -1);
 	agk::SetSpriteShape(sprite, 2);
 	health = 3;
 	//add depth
@@ -59,4 +59,18 @@ void player::updateSprite(int i)
 {
 	if (i == 0)
 		agk::SetSpriteColor(sprite, 0, 0, 0, 0);
+}
+
+void player::loseSize(int i)
+{
+	size -= i;
+	if (size < 25)
+		size = 25;
+	agk::SetSpriteSize(sprite, size, -1);
+}
+
+void player::gainSize(int i)
+{
+	size +=i;
+	agk::SetSpriteSize(sprite, size, -1);
 }

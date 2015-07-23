@@ -16,6 +16,9 @@ std::clock_t start;//start time of each day
 double duration;//duration of the day
 int dayLength = 60;//seconds in each day
 int timeRemaining;
+int lastTick = 0;
+int speedMultiplier = 100;
+
 int selection;//used in menus and such
 
 void app::Begin(void)
@@ -115,7 +118,23 @@ void app::Loop (void)
 				gameMode = 0;
 			}
 			break;
+		case 1:
+			agk::Print("speed multiplier:");
+			agk::Print(speedMultiplier);
+			if (agk::GetRawKeyPressed(39) == 1)//right arrow
+				speedMultiplier += 10;
+			else if (agk::GetRawKeyPressed(37) == 1)//left arrow
+				speedMultiplier -= 10;
+			break;
 		}
+		if (agk::GetRawKeyPressed(38) == 1)
+			selection--;
+		else if (agk::GetRawKeyPressed(40) == 1)
+			selection++;
+		if (selection < 0)
+			selection = 1;
+		else if (selection < 1)
+			selection = 0;
 		break;
 	case 5://endless
 		p1->update();
@@ -124,7 +143,12 @@ void app::Loop (void)
 			obstacles[i]->update();
 		}
 		CheckCollisions();
-		duration = (std::clock() - start) / (double)CLOCKS_PER_SEC;		
+		duration = (std::clock() - start) / (double)CLOCKS_PER_SEC;
+		if ((int)duration - lastTick > 2)
+		{
+			lastTick = (int)duration;
+			p1->loseSize(1);
+		}
 		agk::Print((int)duration);
 		agk::Print(p1->getScore());
 		agk::Print(p1->getHealth());
@@ -144,13 +168,15 @@ void app::CheckCollisions()
 {
 	for (int i = 0; i < numberObstacles; i++)
 	{
-		if (obstacles[i]->getXPos() < 250)
+		if (obstacles[i]->getXPos() < 750)
 		{
 			if (agk::GetSpriteCollision(p1->getSprite(), obstacles[i]->getSprite()) == true)
 			{
 				if (obstacles[i]->getType() == 0)
 				{
 					p1->addPoints(1);
+					if (gameMode == 5)
+						p1->gainSize(1);
 				}
 				else if (obstacles[i]->getType() == 1){
 					p1->loseHealth(1);
@@ -173,6 +199,7 @@ void app::newGame(int i)
 	for (int i = 0; i < numberObstacles; i++)
 	{
 		obstacles[i] = new Obstacle();
+		obstacles[i]->setSpeedMultiplier(speedMultiplier);
 	}
 	gameMode = i;
 	start = std::clock();

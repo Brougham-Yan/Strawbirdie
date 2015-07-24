@@ -4,10 +4,11 @@ using namespace AGK;
 player::player()
 {
 	yPos = 250.0;
-	speed = 5;
+	xPos = 150.0;
+	speed = 10;
 	sprite = agk::CreateSprite(0);
 	score = 0;
-	size = 100;
+	size = 125;
 	agk::SetSpriteSize(sprite, size, -1);
 	agk::SetSpriteShape(sprite, 2);
 	health = 3;
@@ -25,9 +26,19 @@ void player::update()
 		yPos += speed;
 	if (agk::GetRawKeyState(38) == 1)//if pressing up
 		yPos -= speed;
-	if (yPos < 0) yPos = 0;
-	if (yPos > 718) yPos = 718;
-	agk::SetSpritePosition(sprite, 150.0, yPos);
+	if (agk::GetRawKeyState(37) == 1)//if pressing left
+		xPos -= (speed / 1.5);
+	if (agk::GetRawKeyState(39) == 1)//if pressing right
+		xPos += (speed * 1.5);
+	if (yPos < 0) 
+		yPos = 0;
+	if (yPos > 768 - size) 
+		yPos = 768 - size;
+	if (xPos < 0) 
+		xPos = 0;
+	if (xPos > 1024 - size) 
+		xPos = 1024 - size;
+	agk::SetSpritePosition(sprite, xPos, yPos);
 }
 
 int player::getSprite()
@@ -48,6 +59,11 @@ int player::getScore()
 void player::loseHealth(int damage)
 {
 	health -= damage;
+}
+
+void player::gainHealth(int recovery)
+{
+	health += recovery;
 }
 
 int player::getHealth()

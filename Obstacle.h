@@ -1,4 +1,5 @@
 #include "agk.h"
+#include <math.h>
 
 class Obstacle
 {
@@ -15,6 +16,7 @@ public:
 	void update();
 	int getSprite();
 	void reset();
+	void reset(int);
 	int getType();
 	int getXPos();
 	void setSpeedMultiplier(int);

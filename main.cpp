@@ -7,7 +7,7 @@
 using namespace AGK;
 
 app App;
-const int numberObstacles = 30; //number of obstacles allowed on screen at once; 
+const int numberObstacles = 10; //number of obstacles allowed on screen at once; 
 float Aspect = 0.0;
 player *p1;
 Obstacle *obstacles[numberObstacles];
@@ -18,6 +18,7 @@ int dayLength = 60;//seconds in each day
 int timeRemaining;
 int lastTick = 0;
 int speedMultiplier = 100;
+int finalScore = 0;
 
 int selection;//used in menus and such
 
@@ -102,6 +103,7 @@ void app::Loop (void)
 		break;
 	case 3:
 		agk::Print("Game Over");
+		agk::Print(finalScore);
 		agk::Print("Press space to return to the main menu");
 		if (agk::GetRawKeyPressed(32) == 1)
 			gameMode = 0;
@@ -133,7 +135,7 @@ void app::Loop (void)
 			selection++;
 		if (selection < 0)
 			selection = 1;
-		else if (selection < 1)
+		else if (selection > 1)
 			selection = 0;
 		break;
 	case 5://endless
@@ -168,7 +170,11 @@ void app::CheckCollisions()
 {
 	for (int i = 0; i < numberObstacles; i++)
 	{
-		if (obstacles[i]->getXPos() < 750)
+		if (obstacles[i]->getXPos() < -100)
+		{
+			obstacles[i]->reset((int)duration);
+		}
+		if (obstacles[i]->getXPos() < 1020)
 		{
 			if (agk::GetSpriteCollision(p1->getSprite(), obstacles[i]->getSprite()) == true)
 			{
@@ -186,7 +192,11 @@ void app::CheckCollisions()
 						return;
 					}
 				}
-				obstacles[i]->reset();
+				else if (obstacles[i]->getType() == 2)
+				{
+					p1->gainHealth(1);
+				}
+				obstacles[i]->reset((int)duration);
 			}
 		}
 	}
@@ -211,6 +221,7 @@ void app::gameOver()
 	{
 		obstacles[i] -> ~Obstacle();
 	}
+	finalScore = p1->getScore() * speedMultiplier;
 	p1 -> ~player();
 	gameMode = 3;
 }

@@ -3,6 +3,7 @@
 class player
 {
 private:
+	int xPos;
 	int yPos; //vertical position
 	int speed; //vertical movement speed
 	int sprite;
@@ -19,6 +20,7 @@ public:
 	void addPoints(int);
 	int getScore();
 	void loseHealth(int);
+	void gainHealth(int);
 	int getHealth();
 	void updateSprite(int);
 	void loseSize(int);

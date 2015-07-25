@@ -54,6 +54,7 @@ void app::Loop (void)
 			agk::Print("Press space for endless mode");
 			if (agk::GetRawKeyPressed(32) == 1)
 			{
+				duration = 0.0f;
 				newGame(5);
 				selection = 0;
 			}
@@ -139,22 +140,36 @@ void app::Loop (void)
 			selection = 0;
 		break;
 	case 5://endless
-		p1->update();
-		for (int i = 0; i < numberObstacles; i++)
+		if (selection == 0)//not paused
 		{
-			obstacles[i]->update();
+			p1->update();
+			for (int i = 0; i < numberObstacles; i++)
+			{
+				obstacles[i]->update();
+			}
+			CheckCollisions();
+
+			if ( (std::clock() - start) / (double)CLOCKS_PER_SEC > 1)//if it's been a second since the last second
+			{
+				duration++;
+				start = std::clock();
+				p1->loseSize(1);
+			}
+			agk::Print((int)duration);
+			agk::Print(p1->getScore());
+			agk::Print(p1->getHealth());
+			if (agk::GetRawKeyPressed(27) == 1)//escape pressed
+				selection = 1;
 		}
-		CheckCollisions();
-		duration = (std::clock() - start) / (double)CLOCKS_PER_SEC;
-		if ((int)duration - lastTick > 2)
-		{
-			lastTick = (int)duration;
-			p1->loseSize(1);
+		else{
+			if (agk::GetRawKeyPressed(27) == 1)//escape pressed
+			{
+				selection = 0;
+				start = std::clock();
+			}
+			agk::Print("Paused");
 		}
-		agk::Print((int)duration);
-		agk::Print(p1->getScore());
-		agk::Print(p1->getHealth());
-		break;
+			break;
 	}
 
 	agk::Sync();

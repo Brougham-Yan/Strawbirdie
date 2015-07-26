@@ -20,4 +20,5 @@ public:
 	int getType();
 	int getXPos();
 	void setSpeedMultiplier(int);
+	void setDisabled();
 };

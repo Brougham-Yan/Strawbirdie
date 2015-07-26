@@ -53,8 +53,8 @@ void Obstacle::reset(int time)//less than ideal solution, needs either significa
 
 	
 
-	xPos = agk::Random(105, 205) * 10;//multiply by a constant to force them to space out
-	yPos = agk::Random(0, 72) * 10;
+	xPos = agk::Random(18, 36) * 60;//multiply by a constant to force them to space out
+	yPos = (agk::Random(0, 11) * 60) + 30;
 
 	int i = agk::Random(0, 99);
 	if (i > hazardChance)
@@ -87,4 +87,10 @@ int Obstacle::getXPos()
 void Obstacle::setSpeedMultiplier(int i)
 {
 	speedMultiplier = i;
+}
+
+void Obstacle::setDisabled()
+{
+	type = -1;//not in use
+	agk::SetSpriteColor(sprite, 0, 0, 0, 0);
 }

@@ -11,7 +11,9 @@ player::player()
 	size = 125;
 	agk::SetSpriteSize(sprite, size, -1);
 	agk::SetSpriteShape(sprite, 2);
+	agk::SetSpriteColor(sprite, 255, 255, 255, 255);
 	health = 3;
+	invincibleTime = 0;
 	//add depth
 }
 
@@ -38,6 +40,20 @@ void player::update()
 		xPos = 0;
 	if (xPos > 1024 - size) 
 		xPos = 1024 - size;
+	if (invincibleTime > 0)
+	{
+		if (std::clock() % 5 == 0)//if it's an even frame?
+			agk::SetSpriteColor(sprite, 255, 255, 255, 0);
+		else
+			agk::SetSpriteColor(sprite, 255, 255, 255, 255);
+		if ((std::clock() - timer) / (double)CLOCKS_PER_SEC > 1)//if it's been a second since the last second
+		{
+			timer == std::clock();
+			invincibleTime--;
+			agk::SetSpriteColor(sprite, 255, 255, 255, 255);
+		}
+	}
+
 	agk::SetSpritePosition(sprite, xPos, yPos);
 }
 
@@ -89,4 +105,16 @@ void player::gainSize(int i)
 {
 	size +=i;
 	agk::SetSpriteSize(sprite, size, -1);
+}
+
+void player::setInvincible(int time)
+{
+
+	invincibleTime = time;
+}
+
+int player::getInvincibleTime()
+{
+	timer = std::clock();
+	return invincibleTime;
 }

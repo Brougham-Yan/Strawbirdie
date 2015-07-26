@@ -199,8 +199,9 @@ void app::CheckCollisions()
 					if (gameMode == 5)
 						p1->gainSize(1);
 				}
-				else if (obstacles[i]->getType() == 1){
+				else if (obstacles[i]->getType() == 1 && p1->getInvincibleTime() < 1){
 					p1->loseHealth(1);
+					p1->setInvincible(1);
 					if (p1->getHealth() < 1)
 					{
 						gameOver();

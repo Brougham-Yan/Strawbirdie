@@ -7,7 +7,7 @@
 using namespace AGK;
 
 app App;
-const int numberObstacles = 10; //number of obstacles allowed on screen at once; 
+const int numberObstacles = 6; //number of obstacles allowed on screen at once; 
 float Aspect = 0.0;
 player *p1;
 Obstacle *obstacles[numberObstacles];

@@ -10,6 +10,10 @@ private:
 	int speedMultiplier;
 	int yPos;
 	int xPos;
+	int strawberry;
+	int enemy;
+	int popsicle;
+	int spriteSize;
 public:
 	Obstacle();
 	~Obstacle();

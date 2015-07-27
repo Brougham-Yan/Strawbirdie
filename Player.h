@@ -8,7 +8,7 @@ private:
 	int xPos;
 	int yPos; //vertical position
 	int speed; //vertical movement speed
-	int sprite;
+	int playerSprite;
 	int score;
 	//form
 	int health;

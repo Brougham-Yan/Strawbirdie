@@ -2,6 +2,7 @@
 #include "main.h"
 #include "Player.h"
 #include "Obstacle.h"
+#include "Background.h"
 #include <ctime>
 // Namespace
 using namespace AGK;
@@ -10,6 +11,7 @@ app App;
 const int numberObstacles = 6; //number of obstacles allowed on screen at once; 
 float Aspect = 0.0;
 player *p1;
+background *bg;
 Obstacle *obstacles[numberObstacles];
 int gameMode = 0;//what gamemode you're in
 std::clock_t start;//start time of each day
@@ -31,6 +33,7 @@ void app::Begin(void)
 	agk::SetScissor(0,0,0,0);//???
 	agk::SetRandomSeed(agk::GetMilliseconds()); //seed the RNG based on system clock
 	selection = 0;
+	bg = new background();
 }
 
 void app::Loop (void)
@@ -171,7 +174,7 @@ void app::Loop (void)
 		}
 			break;
 	}
-
+	bg->update();
 	agk::Sync();
 }
 
@@ -197,7 +200,7 @@ void app::CheckCollisions()
 				{
 					p1->addPoints(1);
 					if (gameMode == 5)
-						p1->gainSize(1);
+						p1->gainSize(2);
 				}
 				else if (obstacles[i]->getType() == 1 && p1->getInvincibleTime() < 1){
 					p1->loseHealth(1);
@@ -226,6 +229,7 @@ void app::newGame(int i)
 	{
 		obstacles[i] = new Obstacle();
 		obstacles[i]->setSpeedMultiplier(speedMultiplier);
+		obstacles[i]->setDepth(i + 50);
 	}
 	gameMode = i;
 	start = std::clock();

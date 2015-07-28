@@ -64,9 +64,10 @@ void Obstacle::reset(int time)//less than ideal solution, needs either significa
 	{
 		sprite = agk::CreateSprite(enemy);
 		agk::SetSpriteSize(sprite, 100, -1);
+		agk::SetSpriteFlip(sprite, 1, 0);
 		type = 1;//hazard
 		xPos = agk::Random(11, 22) * 125;
-		yPos = agk::Random(0, 6) * 125 + 25;
+		yPos = agk::Random(0, 4) * 125 + 25;
 	}
 	else if (i < 2)
 	{
@@ -74,7 +75,7 @@ void Obstacle::reset(int time)//less than ideal solution, needs either significa
 		agk::SetSpriteSize(sprite, 50, -1);
 		type = 2;//health
 		xPos = agk::Random(15, 30) * 75;
-		yPos = agk::Random(0, 9) * 75 + 10;
+		yPos = agk::Random(0, 8) * 75 + 10;
 	}
 	else
 	{
@@ -82,7 +83,7 @@ void Obstacle::reset(int time)//less than ideal solution, needs either significa
 		agk::SetSpriteSize(sprite, 75, -1);
 		type = 0;//regular points
 		xPos = agk::Random(11, 22) * 100;
-		yPos = agk::Random(0, 6) * 100 + 20;
+		yPos = agk::Random(0, 5) * 100 + 20;
 		
 	}
 	agk::SetSpritePosition(sprite, xPos, yPos);
@@ -108,4 +109,9 @@ void Obstacle::setDisabled()
 {
 	type = -1;//not in use
 	agk::SetSpriteColor(sprite, 0, 0, 0, 0);
+}
+
+void Obstacle::setDepth(int i)
+{
+	agk::SetSpriteDepth(sprite, i);
 }

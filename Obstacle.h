@@ -25,4 +25,5 @@ public:
 	int getXPos();
 	void setSpeedMultiplier(int);
 	void setDisabled();
+	void setDepth(int);
 };

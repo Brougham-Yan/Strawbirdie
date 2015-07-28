@@ -23,7 +23,8 @@ player::player()
 	size = 125;
 	agk::SetSpriteSize(playerSprite, size, -1);
 	agk::SetSpriteShape(playerSprite, 2);
-	agk::SetSpriteColor(playerSprite, 255, 255, 255, 255);
+	//agk::SetSpriteColor(playerSprite, 255, 255, 255, 255);
+	agk::SetSpriteDepth(playerSprite, 25);
 	health = 3;
 	invincibleTime = 0;
 	//add depth
@@ -46,8 +47,8 @@ void player::update()
 		xPos += (speed * 1.5);
 	if (yPos < 0) 
 		yPos = 0;
-	if (yPos > 768 - size) 
-		yPos = 768 - size;
+	if (yPos > 768 - size - 50) 
+		yPos = 768 - size - 50;
 	if (xPos < 0) 
 		xPos = 0;
 	if (xPos > 1024 - size) 

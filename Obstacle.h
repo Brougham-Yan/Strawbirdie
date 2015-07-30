@@ -13,6 +13,7 @@ private:
 	int strawberry;
 	int enemy;
 	int popsicle;
+	int cloud;
 	int spriteSize;
 public:
 	Obstacle();
@@ -28,4 +29,5 @@ public:
 	void setSpeedMultiplier(int);
 	void setDisabled();
 	void setDepth(int);
+	void cloudCover();
 };

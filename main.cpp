@@ -9,7 +9,7 @@
 using namespace AGK;
 
 app App;
-const int numberObstacles = 6; //number of obstacles allowed on screen at once; 
+const int numberObstacles = 5; //number of obstacles allowed on screen at once; 
 float Aspect = 0.0;
 player *p1;
 background *bg;
@@ -207,13 +207,19 @@ void app::CheckCollisions()
 {
 	for (int i = 0; i < numberObstacles; i++)
 	{
-		if (obstacles[i]->getXPos() < -100)
+		if (obstacles[i]->getXPos() < -100 && obstacles[i] ->getType() != 9)
 		{
+			obstacles[i]->setDepth(i + 50);
+			obstacles[i]->reset((int)duration, speed);
+		}
+		else if (obstacles[i]->getXPos() < -1500)
+		{
+			obstacles[i]->setDepth(i + 50);
 			obstacles[i]->reset((int)duration, speed);
 		}
 		if (obstacles[i]->getXPos() < 1020)
 		{
-			if (agk::GetSpriteCollision(p1->getSprite(), obstacles[i]->getSprite()) == true)
+			if (agk::GetSpriteCollision(p1->getSprite(), obstacles[i]->getSprite()) == true && obstacles[i] ->getType() !=9)
 			{
 				if (obstacles[i]->getType() == 0)
 				{
@@ -235,6 +241,12 @@ void app::CheckCollisions()
 				{
 					p1->gainHealth(1);
 				}
+				else if (obstacles[i]->getType() == 3)
+				{
+					obstacles[i]->cloudCover();
+					return;
+				}
+				obstacles[i]->setDepth(i + 50);
 				obstacles[i]->reset((int)duration, speed);
 			}
 		}

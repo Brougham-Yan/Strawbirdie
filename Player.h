@@ -14,6 +14,7 @@ private:
 	int health;
 	int size;
 	int invincibleTime;
+	float velocity;
 	//food
 public:
 	player();

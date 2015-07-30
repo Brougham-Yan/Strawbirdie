@@ -10,7 +10,7 @@ background::background()
 	ground1x = 0;
 	ground2 = agk::CreateSprite(agk::LoadImage("/assets/background/layer-2.png"));
 	ground2x = 1536;
-	speed = 5;
+	speed = 10;
 
 	agk::SetSpriteColor(backGround1, 255, 255, 255, 255);
 
@@ -37,8 +37,8 @@ void background::setSpeed(int i)
 
 void background::update()
 {
-	backGround1x -= (speed - 2);
-	backGround2x -= (speed - 2);
+	backGround1x -= (speed - 5);
+	backGround2x -= (speed - 5);
 	ground1x -= speed;
 	ground2x -= speed;
 

@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "Obstacle.h"
 #include "Background.h"
+#include "Score.h"
 #include <ctime>
 // Namespace
 using namespace AGK;
@@ -13,14 +14,16 @@ float Aspect = 0.0;
 player *p1;
 background *bg;
 Obstacle *obstacles[numberObstacles];
+Score *scoreBoard;
 int gameMode = 0;//what gamemode you're in
 std::clock_t start;//start time of each day
 double duration;//duration of the day
 int dayLength = 60;//seconds in each day
 int timeRemaining;
 int lastTick = 0;
+int speed = 10;
 int speedMultiplier = 100;
-int finalScore = 0;
+//int finalScore = 0;
 
 int selection;//used in menus and such
 
@@ -34,6 +37,7 @@ void app::Begin(void)
 	agk::SetRandomSeed(agk::GetMilliseconds()); //seed the RNG based on system clock
 	selection = 0;
 	bg = new background();
+	scoreBoard = new Score();
 }
 
 void app::Loop (void)
@@ -63,6 +67,14 @@ void app::Loop (void)
 			}
 			break;
 		case 2:
+			agk::Print("Press space for high scores");
+			if (agk::GetRawKeyPressed(32) == 1)
+			{
+				selection = 0;
+				gameMode = 6;
+			}
+			break;
+		case 3:
 			agk::Print("Press space for options");
 			if (agk::GetRawKeyPressed(32) == 1)
 			{
@@ -77,8 +89,8 @@ void app::Loop (void)
 		if (agk::GetRawKeyPressed(40) == 1)
 			selection++;
 		if (selection < 0)
-			selection = 2;
-		else if (selection > 2)
+			selection = 3;
+		else if (selection > 3)
 			selection = 0;
 
 		break;
@@ -107,7 +119,7 @@ void app::Loop (void)
 		break;
 	case 3:
 		agk::Print("Game Over");
-		agk::Print(finalScore);
+		agk::Print(scoreBoard->getPoints());
 		agk::Print("Press space to return to the main menu");
 		if (agk::GetRawKeyPressed(32) == 1)
 			gameMode = 0;
@@ -173,6 +185,13 @@ void app::Loop (void)
 			agk::Print("Paused");
 		}
 			break;
+	case 6://high scores
+	{
+		scoreBoard->displayScores();
+		if (agk::GetRawKeyPressed(32) == 1)
+			gameMode = 0;
+		break;
+	}
 	}
 	bg->update();
 	agk::Sync();
@@ -190,7 +209,7 @@ void app::CheckCollisions()
 	{
 		if (obstacles[i]->getXPos() < -100)
 		{
-			obstacles[i]->reset((int)duration);
+			obstacles[i]->reset((int)duration, speed);
 		}
 		if (obstacles[i]->getXPos() < 1020)
 		{
@@ -198,9 +217,10 @@ void app::CheckCollisions()
 			{
 				if (obstacles[i]->getType() == 0)
 				{
+					scoreBoard->addPoints(1);
 					p1->addPoints(1);
 					if (gameMode == 5)
-						p1->gainSize(2);
+						p1->gainSize(3);
 				}
 				else if (obstacles[i]->getType() == 1 && p1->getInvincibleTime() < 1){
 					p1->loseHealth(1);
@@ -215,7 +235,7 @@ void app::CheckCollisions()
 				{
 					p1->gainHealth(1);
 				}
-				obstacles[i]->reset((int)duration);
+				obstacles[i]->reset((int)duration, speed);
 			}
 		}
 	}
@@ -227,7 +247,7 @@ void app::newGame(int i)
 
 	for (int i = 0; i < numberObstacles; i++)
 	{
-		obstacles[i] = new Obstacle();
+		obstacles[i] = new Obstacle(speed);
 		obstacles[i]->setSpeedMultiplier(speedMultiplier);
 		obstacles[i]->setDepth(i + 50);
 	}
@@ -241,7 +261,8 @@ void app::gameOver()
 	{
 		obstacles[i] -> ~Obstacle();
 	}
-	finalScore = p1->getScore() * speedMultiplier;
+	scoreBoard->finalScore(duration, speedMultiplier);
+	//finalScore = p1->getScore() * speedMultiplier;
 	p1 -> ~player();
 	gameMode = 3;
 }

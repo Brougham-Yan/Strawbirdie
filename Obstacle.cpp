@@ -15,6 +15,21 @@ Obstacle::Obstacle()
 	//set start coordinates
 }
 
+Obstacle::Obstacle(int s)
+{
+	speed = s; //temporary
+	speedMultiplier = 100;
+	sprite = agk::CreateSprite(0);
+	strawberry = agk::LoadImage("/assets/hazards/strawberry.png");
+	popsicle = agk::LoadImage("assets/hazards/cherry.png");
+	enemy = agk::LoadImage("assets/hazards/frame-1.png");
+	agk::SetSpriteSize(sprite, 50, -1);
+	agk::SetSpriteShape(sprite, 2);
+	//add depth
+	reset(0);
+	//set start coordinates
+}
+
 Obstacle::~Obstacle()
 {
 	agk::DeleteSprite(sprite);
@@ -31,23 +46,23 @@ int Obstacle::getSprite()
 	return sprite;
 }
 
-void Obstacle::reset()//less than ideal solution, needs either significant tweaking or a full overhaul
-{
-
-	xPos = agk::Random(105, 205) * 100;//multiply by a constant to force them to space out
-	yPos = agk::Random(0, 10) * 75;
-
-	int i = agk::Random(0, 99);
-	if (i < 30)
-	{
-		type = 1;
-		agk::SetSpriteColor(sprite, 255, 0, 0, 255);
-	}
-	else{
-		type = 0;
-		agk::SetSpriteColor(sprite, 0, 255, 0, 255);
-	}
-}
+//void Obstacle::reset()//less than ideal solution, needs either significant tweaking or a full overhaul
+//{
+//
+//	xPos = agk::Random(105, 205) * 100;//multiply by a constant to force them to space out
+//	yPos = agk::Random(0, 10) * 75;
+//
+//	int i = agk::Random(0, 99);
+//	if (i < 30)
+//	{
+//		type = 1;
+//		agk::SetSpriteColor(sprite, 255, 0, 0, 255);
+//	}
+//	else{
+//		type = 0;
+//		agk::SetSpriteColor(sprite, 0, 255, 0, 255);
+//	}
+//}
 
 void Obstacle::reset(int time)//less than ideal solution, needs either significant tweaking or a full overhaul
 {
@@ -68,6 +83,7 @@ void Obstacle::reset(int time)//less than ideal solution, needs either significa
 		type = 1;//hazard
 		xPos = agk::Random(11, 22) * 125;
 		yPos = agk::Random(0, 4) * 125 + 25;
+		speed = (speed * 1.5);
 	}
 	else if (i < 2)
 	{
@@ -75,7 +91,7 @@ void Obstacle::reset(int time)//less than ideal solution, needs either significa
 		agk::SetSpriteSize(sprite, 50, -1);
 		type = 2;//health
 		xPos = agk::Random(15, 30) * 75;
-		yPos = agk::Random(0, 8) * 75 + 10;
+		yPos = agk::Random(0, 7) * 75 + 10;
 	}
 	else
 	{
@@ -88,6 +104,12 @@ void Obstacle::reset(int time)//less than ideal solution, needs either significa
 	}
 	agk::SetSpritePosition(sprite, xPos, yPos);
 
+}
+
+void Obstacle::reset(int time, int s)
+{
+	speed = s;
+	reset(time);
 }
 
 int Obstacle::getType()

@@ -5,7 +5,7 @@ player::player()
 {
 	yPos = 250.0;
 	xPos = 150.0;
-	speed = 15;
+	speed = 5;
 	agk::CreateSprite(playerSprite, 0);
 	agk::AddSpriteAnimationFrame(playerSprite, agk::LoadImage("/assets/player/frame-1.png"));
 	agk::AddSpriteAnimationFrame(playerSprite, agk::LoadImage("/assets/player/frame-2.png"));
@@ -27,6 +27,7 @@ player::player()
 	agk::SetSpriteDepth(playerSprite, 25);
 	health = 3;
 	invincibleTime = 0;
+	velocity = 0;
 	//add depth
 }
 
@@ -37,20 +38,30 @@ player::~player()
 
 void player::update()
 {
-	if (agk::GetRawKeyState(40) == 1)//if pressing down
-		yPos += speed;
+	//if (agk::GetRawKeyState(40) == 1)//if pressing down
+	//	yPos += speed;
+	//if (agk::GetRawKeyState(38) == 1)//if pressing up
+	//	yPos -= speed;
+	//if (agk::GetRawKeyState(37) == 1)//if pressing left
+	//	xPos -= (speed / 1.5);
+	//if (agk::GetRawKeyState(39) == 1)//if pressing right
+	//	xPos += (speed * 1.5);
 	if (agk::GetRawKeyState(38) == 1)//if pressing up
-		yPos -= speed;
-	if (agk::GetRawKeyState(37) == 1)//if pressing left
-		xPos -= (speed / 1.5);
+		velocity += 0.25;
+	else
+		velocity -= 0.12;
 	if (agk::GetRawKeyState(39) == 1)//if pressing right
 		xPos += (speed * 1.5);
+	else
+		xPos -= (speed / 1.5);
+	yPos -= velocity;
+
 	if (yPos < 0) 
-		yPos = 0;
+		velocity = (-5);
 	if (yPos > 768 - size - 50) 
-		yPos = 768 - size - 50;
-	if (xPos < 0) 
-		xPos = 0;
+		velocity = 3;
+	if (xPos < 150) 
+		xPos = 150;
 	if (xPos > 1024 - size) 
 		xPos = 1024 - size;
 	if (invincibleTime > 0)
@@ -70,6 +81,7 @@ void player::update()
 	}
 
 	agk::SetSpritePosition(playerSprite, xPos, yPos);
+	agk::SetSpriteAngle(playerSprite, (velocity*-3));
 }
 
 int player::getSprite()
@@ -80,6 +92,11 @@ int player::getSprite()
 void player::addPoints(int points)
 {
 	score += points;
+	if (score > 49)//every 50 strawberries, get a health
+	{
+		score -= 50;
+		health++;
+	}
 }
 
 int player::getScore()
@@ -95,6 +112,8 @@ void player::loseHealth(int damage)
 void player::gainHealth(int recovery)
 {
 	health += recovery;
+	if (health > 5)
+		health = 5;
 }
 
 int player::getHealth()

@@ -16,11 +16,13 @@ private:
 	int spriteSize;
 public:
 	Obstacle();
+	Obstacle(int);
 	~Obstacle();
 	void update();
 	int getSprite();
 	void reset();
 	void reset(int);
+	void reset(int, int);
 	int getType();
 	int getXPos();
 	void setSpeedMultiplier(int);

@@ -207,6 +207,18 @@ void app::CheckCollisions()
 {
 	for (int i = 0; i < numberObstacles; i++)
 	{
+		if (obstacles[i]->getColliding() == false)//if the obstacle hasn't been confirmed to be not colliding
+		{
+			obstacles[i]->setColliding(true);
+			for (int j = 0; j < numberObstacles; j++)
+			{
+				if (obstacles[i]->getColliding() == true && i != j)
+				{
+					if (agk::GetSpriteCollision(obstacles[i]->getSprite(), obstacles[j]->getSprite()) == true)//if it's colliding
+						obstacles[i]->reset((int)duration, speed);
+				}
+			}
+		}
 		if (obstacles[i]->getXPos() < -100 && obstacles[i] ->getType() != 9)
 		{
 			obstacles[i]->setDepth(i + 50);
@@ -217,7 +229,7 @@ void app::CheckCollisions()
 			obstacles[i]->setDepth(i + 50);
 			obstacles[i]->reset((int)duration, speed);
 		}
-		if (obstacles[i]->getXPos() < 1020)
+		if (obstacles[i]->getType() != -1)
 		{
 			if (agk::GetSpriteCollision(p1->getSprite(), obstacles[i]->getSprite()) == true && obstacles[i] ->getType() !=9)
 			{
@@ -225,29 +237,32 @@ void app::CheckCollisions()
 				{
 					scoreBoard->addPoints(1);
 					p1->addPoints(1);
+					obstacles[i]->setDisabled();
 					if (gameMode == 5)
 						p1->gainSize(3);
+					return;
 				}
 				else if (obstacles[i]->getType() == 1 && p1->getInvincibleTime() < 1){
 					p1->loseHealth(1);
 					p1->setInvincible(1);
+					obstacles[i]->setDisabled();
 					if (p1->getHealth() < 1)
 					{
 						gameOver();
-						return;
 					}
+					return;
 				}
 				else if (obstacles[i]->getType() == 2)
 				{
 					p1->gainHealth(1);
+					obstacles[i]->setDisabled();
+					return;
 				}
 				else if (obstacles[i]->getType() == 3)
 				{
 					obstacles[i]->cloudCover();
 					return;
 				}
-				obstacles[i]->setDepth(i + 50);
-				obstacles[i]->reset((int)duration, speed);
 			}
 		}
 	}

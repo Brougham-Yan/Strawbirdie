@@ -46,20 +46,22 @@ void player::update()
 	//	xPos -= (speed / 1.5);
 	//if (agk::GetRawKeyState(39) == 1)//if pressing right
 	//	xPos += (speed * 1.5);
-	if (agk::GetRawKeyState(38) == 1)//if pressing up
+	if (agk::GetRawKeyState(32) == 1)//if pressing up
 		velocity += 0.25;
 	else
 		velocity -= 0.12;
-	if (agk::GetRawKeyState(39) == 1)//if pressing right
-		xPos += (speed * 1.5);
-	else
-		xPos -= (speed / 1.5);
+	//if (agk::GetRawKeyState(39) == 1)//if pressing right
+	//	xPos += (speed * 1.5);
+	//else
+	//	xPos -= (speed / 1.5);
 	yPos -= velocity;
 
-	if (yPos < 0) 
-		velocity = (-5);
-	if (yPos > 768 - size - 50) 
-		velocity = 3;
+	if (yPos < 0)
+		velocity = (-velocity*.8);
+		//velocity = (-5);
+	if (yPos > 768 - size - 50)
+		velocity = (-velocity*.8);
+		//velocity = 3;
 	if (xPos < 150) 
 		xPos = 150;
 	if (xPos > 1024 - size) 

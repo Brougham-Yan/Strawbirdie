@@ -15,6 +15,7 @@ private:
 	int popsicle;
 	int cloud;
 	int spriteSize;
+	bool notColliding;
 public:
 	Obstacle();
 	Obstacle(int);
@@ -30,4 +31,6 @@ public:
 	void setDisabled();
 	void setDepth(int);
 	void cloudCover();
+	bool getColliding();
+	void setColliding(bool);
 };

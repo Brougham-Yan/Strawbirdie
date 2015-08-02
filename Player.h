@@ -1,5 +1,6 @@
 #include "agk.h"
 #include <ctime>
+#include <string>
 
 class player
 {
@@ -12,6 +13,7 @@ private:
 	int score;
 	//form
 	int health;
+	int healthDisplay;
 	int size;
 	int invincibleTime;
 	float velocity;
@@ -31,4 +33,5 @@ public:
 	void gainSize(int);
 	void setInvincible(int);
 	int getInvincibleTime();
+	void setHealthVisible(int);
 };

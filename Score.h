@@ -8,6 +8,12 @@ private:
 	int highScores[10];
 	int file;
 	std::string scoreNames[10];
+	int scoreDisplays[10];
+	int background;
+	int pointDisplay;
+	int timeBonus;
+	int speedMultiplier;
+	int finalPoints;
 public:
 	Score();
 	~Score();
@@ -16,5 +22,8 @@ public:
 	void resetHighScores();
 	void finalScore(int, int);
 	void displayScores();
+	void hideScores();
 	int getPoints();
+	void showScore();
+	void hideFinalScore();
 };

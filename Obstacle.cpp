@@ -91,7 +91,7 @@ void Obstacle::reset(int time)//less than ideal solution, needs either significa
 		sprite = agk::CreateSprite(popsicle);
 		agk::SetSpriteSize(sprite, 50, -1);
 		type = 2;//health
-		yPos = agk::Random(0, 575);
+		yPos = agk::Random(0, 560);
 	}
 	else
 	{

@@ -26,6 +26,10 @@ player::player()
 	//agk::SetSpriteColor(playerSprite, 255, 255, 255, 255);
 	agk::SetSpriteDepth(playerSprite, 25);
 	health = 3;
+	healthDisplay = agk::CreateText("3");
+	agk::SetTextSize(healthDisplay, 40);
+	agk::SetTextPosition(healthDisplay, 225, 725);
+	agk::SetTextVisible(healthDisplay, 0);
 	invincibleTime = 0;
 	velocity = 0;
 	//add depth
@@ -109,6 +113,8 @@ int player::getScore()
 void player::loseHealth(int damage)
 {
 	health -= damage;
+	std::string s = std::to_string(health);
+	agk::SetTextString(healthDisplay, s.c_str());
 }
 
 void player::gainHealth(int recovery)
@@ -116,6 +122,8 @@ void player::gainHealth(int recovery)
 	health += recovery;
 	if (health > 5)
 		health = 5;
+	std::string s = std::to_string(health);
+	agk::SetTextString(healthDisplay, s.c_str());
 }
 
 int player::getHealth()
@@ -154,4 +162,12 @@ int player::getInvincibleTime()
 {
 	timer = std::clock();
 	return invincibleTime;
+}
+
+void player::setHealthVisible(int i)
+{
+	if (i == 1)
+		agk::SetTextVisible(healthDisplay, 1);
+	else
+		agk::SetTextVisible(healthDisplay, 0);
 }

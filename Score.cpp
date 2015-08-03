@@ -17,10 +17,10 @@ Score::Score()
 	}
 	for (int i = 0; i < 10; i++)
 		scoreDisplays[i] = agk::CreateText("");
-	background = agk::CreateSprite(0);
-	agk::SetSpritePosition(background, 262, 100);
-	agk::SetSpriteSize(background, 500, 500);
-	agk::SetSpriteColor(background, 75, 150, 250, 255);
+	background = agk::CreateSprite(agk::LoadImage("/assets/background/menus.png"));
+	//agk::SetSpritePosition(background, 262, 100);
+	//agk::SetSpriteSize(background, 500, 500);
+	//agk::SetSpriteColor(background, 75, 150, 250, 255);
 	agk::SetSpriteVisible(background, 0);
 	pointDisplay = agk::CreateText("0");
 	agk::SetTextSize(pointDisplay, 40);

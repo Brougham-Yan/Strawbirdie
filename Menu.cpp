@@ -4,10 +4,10 @@ Menu::Menu()
 {
 	selection = 0;
 	menuType = 0;
-	menuBG = agk::CreateSprite(0);
-	agk::SetSpriteColor(menuBG, 75, 150, 250, 255);
-	agk::SetSpritePosition(menuBG, 262, 100);
-	agk::SetSpriteSize(menuBG, 500, 400);
+	menuBG = agk::CreateSprite(agk::LoadImage("/assets/background/menus.png"));;
+	//agk::SetSpriteColor(menuBG, 75, 150, 250, 255);
+	//agk::SetSpritePosition(menuBG, 262, 100);
+	//agk::SetSpriteSize(menuBG, 500, 400);
 
 
 	startGame = agk::CreateText("Start Game");

@@ -24,9 +24,12 @@ Score::Score()
 	agk::SetSpriteVisible(background, 0);
 	pointDisplay = agk::CreateText("0");
 	agk::SetTextSize(pointDisplay, 40);
-	agk::SetTextPosition(pointDisplay, 25, 725);
+	agk::SetTextDepth(pointDisplay, 1);
+	agk::SetTextPosition(pointDisplay, 325, 700);
 	agk::SetTextVisible(pointDisplay, 0);
-
+	UI = agk::CreateSprite(agk::LoadImage("/assets/background/UI.png"));
+	agk::SetSpriteVisible(UI, 0);
+	agk::SetSpriteDepth(UI, 5);
 	timeBonus = agk::CreateText("0");
 	agk::SetTextSize(timeBonus, 40);
 	agk::SetTextVisible(timeBonus, 0);
@@ -60,12 +63,19 @@ void Score::resetHighScores()
 void Score::addPoints(int i)
 {
 	points += i;
+	if (points > 99)
+		agk::SetTextPosition(pointDisplay, 120, 690);
+	else if (points > 9)
+		agk::SetTextPosition(pointDisplay, 140, 690);
+	else
+		agk::SetTextPosition(pointDisplay, 160, 690);
 	std::string s = std::to_string(points);
 	agk::SetTextString(pointDisplay, s.c_str());
 }
 
 void Score::finalScore(int time, int multiplier)
 {
+	agk::SetSpriteVisible(UI, 0);
 	agk::SetSpriteVisible(background, 1);
 	agk::SetTextVisible(pointDisplay, 1);
 	agk::SetTextVisible(speedMultiplier, 1);
@@ -159,10 +169,14 @@ int Score::getPoints()
 
 void Score::showScore()
 {
-	agk::SetTextPosition(pointDisplay, 25, 725);
+	if (points > 9)
+		agk::SetTextPosition(pointDisplay, 140, 690);
+	else
+		agk::SetTextPosition(pointDisplay, 160, 690);
 	std::string s = std::to_string(points);
 	agk::SetTextString(pointDisplay, s.c_str());
 	agk::SetTextVisible(pointDisplay, 1);
+	agk::SetSpriteVisible(UI, 1);
 }
 
 void Score::hideFinalScore()

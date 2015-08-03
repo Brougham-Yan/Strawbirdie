@@ -14,6 +14,7 @@ private:
 	int timeBonus;
 	int speedMultiplier;
 	int finalPoints;
+	int UI;
 public:
 	Score();
 	~Score();

@@ -28,7 +28,8 @@ player::player()
 	health = 3;
 	healthDisplay = agk::CreateText("3");
 	agk::SetTextSize(healthDisplay, 40);
-	agk::SetTextPosition(healthDisplay, 225, 725);
+	agk::SetTextPosition(healthDisplay, 45, 690);
+	agk::SetTextDepth(healthDisplay, 5);
 	agk::SetTextVisible(healthDisplay, 0);
 	invincibleTime = 0;
 	velocity = 0;

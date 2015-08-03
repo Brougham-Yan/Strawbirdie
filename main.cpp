@@ -80,29 +80,6 @@ void app::Loop (void)
 			}
 		}
 		break;
-
-	//case 1://normal game
-	//	p1->update();
-	//	for (int i = 0; i < numberObstacles; i++)
-	//	{
-	//		obstacles[i]->update();
-	//	}
-	//	CheckCollisions();
-	//	duration = (std::clock() - start) / (double)CLOCKS_PER_SEC;
-	//	timeRemaining = dayLength - (int)duration;
-	//	if (timeRemaining < 0)
-	//	{
-	//		gameMode = 2;
-	//		//some sort of function here
-	//	}
-	//	agk::Print(timeRemaining);
-	//	agk::Print(p1->getScore());
-	//	agk::Print(p1->getHealth());
-
-	//	break;
-	//case 2:
-	//	agk::Print("Day Over");
-	//	break;
 	case 3:
 		if (agk::GetRawKeyPressed(32) == 1)
 		{
@@ -114,16 +91,14 @@ void app::Loop (void)
 	case 4://options
 		if (agk::GetRawKeyPressed(38) == 1)
 		{
-			selection = menu->getSelection();
-			menu->changeSelection(1);
+			selection = menu->changeSelection(1);
 		}
 		if (agk::GetRawKeyPressed(40) == 1)
 		{
-			selection = menu->getSelection();
-			menu->changeSelection(-1);
+			selection = menu->changeSelection(-1);
 		}
 
-		if (selection == 0)
+		if (selection == 2)
 		{
 			if (agk::GetRawKeyPressed(39) == 1)//right arrow
 			{
@@ -141,38 +116,19 @@ void app::Loop (void)
 			if (agk::GetRawKeyPressed(32) == 1)
 			{
 				menu->hideMenu();
+				gameMode = 7;
+				menu->showMenu(2);
+			}
+		}
+		if (selection == 0)
+		{
+			if (agk::GetRawKeyPressed(32) == 1)
+			{
+				menu->hideMenu();
 				gameMode = 0;
 				menu->showMenu(0);
 			}
 		}
-		//agk::Print("Options");
-		//switch (selection)
-		//{
-		//case 0:
-		//	agk::Print("Press space to return to the main menu");
-		//	if (agk::GetRawKeyPressed(32) == 1)
-		//	{
-		//		selection = 0;
-		//		gameMode = 0;
-		//	}
-		//	break;
-		//case 1:
-		//	agk::Print("speed multiplier:");
-		//	agk::Print(speedMultiplier);
-		//	if (agk::GetRawKeyPressed(39) == 1)//right arrow
-		//		speedMultiplier += 10;
-		//	else if (agk::GetRawKeyPressed(37) == 1)//left arrow
-		//		speedMultiplier -= 10;
-		//	break;
-		//}
-		//if (agk::GetRawKeyPressed(38) == 1)
-		//	selection--;
-		//else if (agk::GetRawKeyPressed(40) == 1)
-		//	selection++;
-		//if (selection < 0)
-		//	selection = 1;
-		//else if (selection > 1)
-		//	selection = 0;
 		break;
 	case 5://endless
 		if (selection == 0)//not paused
@@ -183,12 +139,13 @@ void app::Loop (void)
 				obstacles[i]->update();
 			}
 			CheckCollisions();
-
-			if ( (std::clock() - start) / (double)CLOCKS_PER_SEC > 1)//if it's been a second since the last second
+			if ( (std::clock() - start) / (double)CLOCKS_PER_SEC > .5)//if it's been a second since the last second
 			{
-				duration++;
+				duration += 0.5;
 				start = std::clock();
 				p1->loseSize(1);
+				if (p1->getHealth() < 1)
+					gameOver();
 			}
 			if (agk::GetRawKeyPressed(27) == 1)//escape pressed
 			{
@@ -207,7 +164,6 @@ void app::Loop (void)
 		}
 			break;
 	case 6://high scores
-	{
 		if (agk::GetRawKeyPressed(32) == 1)//space pressed
 		{
 			gameMode = 0;
@@ -215,7 +171,14 @@ void app::Loop (void)
 			menu->showMenu(0);
 		}
 		break;
-	}
+	case 7://how to play
+		if (agk::GetRawKeyPressed(32) == 1)
+		{
+			gameMode = 4;
+			menu->showMenu(1);
+			selection = menu->changeSelection(0);
+		}
+	
 	}
 	bg->update();
 	agk::Sync();
@@ -280,6 +243,7 @@ void app::CheckCollisions()
 				{
 					p1->gainHealth(1);
 					obstacles[i]->setDisabled();
+					p1->gainSize(8);
 					return;
 				}
 				else if (obstacles[i]->getType() == 3)

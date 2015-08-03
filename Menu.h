@@ -13,12 +13,14 @@ private:
 	int back;
 	int speedMultiplier;
 	int speedNumber;
+	int tutorial;
+	int howToPlay;
 public:
 	Menu();
 	~Menu();
 	void hideMenu();
 	void showMenu(int);
-	void changeSelection(int);
+	int changeSelection(int);
 	int getSelection();
 	void setSpeedNumber(int);
 };

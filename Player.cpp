@@ -62,10 +62,10 @@ void player::update()
 	yPos -= velocity;
 
 	if (yPos < 0)
-		velocity = (-velocity*.8);
+		velocity = (-velocity*.5) -2;
 		//velocity = (-5);
 	if (yPos > 768 - size - 50)
-		velocity = (-velocity*.8);
+		velocity = (-velocity*.5) +2;
 		//velocity = 3;
 	if (xPos < 150) 
 		xPos = 150;
@@ -141,8 +141,8 @@ int player::getHealth()
 void player::loseSize(int i)
 {
 	size -= i;
-	if (size < 25)
-		size = 25;
+	if (size < 70)
+		health = 0;
 	agk::SetSpriteSize(playerSprite, size, -1);
 }
 

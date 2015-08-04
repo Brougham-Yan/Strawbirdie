@@ -11,10 +11,16 @@ private:
 	int selection;
 	int menuType;
 	int back;
+
 	int speedMultiplier;
 	int speedNumber;
 	int tutorial;
 	int howToPlay;
+	int musicVolume;
+	int musicVolumeNumber;
+	int sfxVolume;
+	int sfxVolumeNumber;
+
 public:
 	Menu();
 	~Menu();
@@ -23,4 +29,7 @@ public:
 	int changeSelection(int);
 	int getSelection();
 	void setSpeedNumber(int);
+	void setMusicNumber(int);
+	void setSFXNumber(int);
+
 };

@@ -26,23 +26,42 @@ Menu::Menu()
 	back = agk::CreateText("Back");
 	speedMultiplier = agk::CreateText("Speed Multiplier:");
 	speedNumber = agk::CreateText("100");
-	agk::SetTextSize(back, 50);
+	musicVolume = agk::CreateText("Music Volume:");
+	musicVolumeNumber = agk::CreateText("100");
+	sfxVolume = agk::CreateText("SFX Volume:");
+	sfxVolumeNumber = agk::CreateText("100");
+	tutorial = agk::CreateSprite(agk::LoadImage("/assets/background/howtoplay.png"));
+	howToPlay = agk::CreateText("How to Play");
+
+	agk::SetTextSize(back, 50);//options formatting
 	agk::SetTextSize(speedMultiplier, 40);
 	agk::SetTextSize(speedNumber, 50);
-	agk::SetTextPosition(back, 280, 400);
+	agk::SetTextSize(musicVolume, 40);
+	agk::SetTextSize(musicVolumeNumber, 50);
+	agk::SetTextSize(sfxVolume, 40);
+	agk::SetTextSize(sfxVolumeNumber, 50);
+	agk::SetTextSize(howToPlay, 50);
+
 	agk::SetTextPosition(speedMultiplier, 280, 150); 
-	agk::SetTextPosition(speedNumber, 400, 200);
+	agk::SetTextPosition(speedNumber, 450, 200);
+	agk::SetTextPosition(howToPlay, 280, 550);
+	agk::SetTextPosition(musicVolume, 280, 250);
+	agk::SetTextPosition(musicVolumeNumber, 450, 300);
+	agk::SetTextPosition(sfxVolume, 280, 350);
+	agk::SetTextPosition(sfxVolumeNumber, 450, 400);
+
+	agk::SetTextPosition(back, 280, 600);
+
+
+	agk::SetSpriteDepth(tutorial, 3);
+	agk::SetSpriteVisible(tutorial, 0);
 	agk::SetTextVisible(back, 0);
 	agk::SetTextVisible(speedMultiplier, 0);
 	agk::SetTextVisible(speedNumber, 0);
-
-	tutorial = agk::CreateSprite(agk::LoadImage("/assets/background/howtoplay.png"));
-	agk::SetSpriteDepth(tutorial, 3);
-	agk::SetSpriteVisible(tutorial, 0);
-
-	howToPlay = agk::CreateText("How to Play");
-	agk::SetTextSize(howToPlay, 50);
-	agk::SetTextPosition(howToPlay, 280, 250);
+	agk::SetTextVisible(musicVolume, 0);
+	agk::SetTextVisible(musicVolumeNumber, 0);
+	agk::SetTextVisible(sfxVolume, 0);
+	agk::SetTextVisible(sfxVolumeNumber, 0);
 	agk::SetTextVisible(howToPlay, 0);
 }
 
@@ -64,6 +83,14 @@ void Menu::hideMenu()
 	agk::SetSpriteVisible(tutorial, 0);
 	agk::SetTextVisible(howToPlay, 0);
 	agk::SetTextColor(howToPlay, 255, 255, 255, 255);
+	agk::SetTextColor(musicVolume, 255, 255, 255, 255);
+	agk::SetTextVisible(musicVolume, 0);
+	agk::SetTextColor(musicVolumeNumber, 255, 255, 255, 255);
+	agk::SetTextVisible(musicVolumeNumber, 0);
+	agk::SetTextColor(sfxVolume, 255, 255, 255, 255);
+	agk::SetTextVisible(sfxVolume, 0);
+	agk::SetTextColor(sfxVolumeNumber, 255, 255, 255, 255);
+	agk::SetTextVisible(sfxVolumeNumber, 0);
 }
 
 void Menu::showMenu(int i)
@@ -87,6 +114,10 @@ void Menu::showMenu(int i)
 		agk::SetTextVisible(speedMultiplier, 1);
 		agk::SetTextVisible(speedNumber, 1);
 		agk::SetTextVisible(howToPlay, 1);
+		agk::SetTextVisible(musicVolume, 1);
+		agk::SetTextVisible(musicVolumeNumber, 1);
+		agk::SetTextVisible(sfxVolume, 1);
+		agk::SetTextVisible(sfxVolumeNumber, 1);
 		break;
 	case 2:
 		agk::SetSpriteVisible(tutorial, 1);
@@ -125,13 +156,17 @@ int Menu::changeSelection(int i)
 		break;
 	case 1:
 		if (selection < 0)
-			selection = 2;
-		else if (selection > 2)
+			selection = 4;
+		else if (selection > 4)
 			selection = 0;
 		agk::SetTextColor(speedMultiplier, 255, 255, 255, 255);
 		agk::SetTextColor(speedNumber, 255, 255, 255, 255);
 		agk::SetTextColor(back, 255, 255, 255, 255);
 		agk::SetTextColor(howToPlay, 255, 255, 255, 255);
+		agk::SetTextColor(musicVolume, 255, 255, 255, 255);
+		agk::SetTextColor(musicVolumeNumber, 255, 255, 255, 255);
+		agk::SetTextColor(sfxVolume, 255, 255, 255, 255);
+		agk::SetTextColor(sfxVolumeNumber, 255, 255, 255, 255);
 
 		switch (selection)
 		{
@@ -142,6 +177,14 @@ int Menu::changeSelection(int i)
 			agk::SetTextColor(howToPlay, 0, 255, 0, 255);
 			break;
 		case 2:
+			agk::SetTextColor(sfxVolume, 0, 255, 0, 255);
+			agk::SetTextColor(sfxVolumeNumber, 0, 255, 0, 255);
+			break;
+		case 3:
+			agk::SetTextColor(musicVolume, 0, 255, 0, 255);
+			agk::SetTextColor(musicVolumeNumber, 0, 255, 0, 255);
+			break;
+		case 4:
 			agk::SetTextColor(speedMultiplier, 0, 255, 0, 255);
 			agk::SetTextColor(speedNumber, 0, 255, 0, 255);
 			break;
@@ -160,4 +203,16 @@ void Menu::setSpeedNumber(int i)
 {
 	std::string s = std::to_string(i);
 	agk::SetTextString(speedNumber, s.c_str());
+}
+
+void Menu::setMusicNumber(int i)
+{
+	std::string s = std::to_string(i);
+	agk::SetTextString(musicVolumeNumber, s.c_str());
+}
+
+void Menu::setSFXNumber(int i)
+{
+	std::string s = std::to_string(i);
+	agk::SetTextString(sfxVolumeNumber, s.c_str());
 }

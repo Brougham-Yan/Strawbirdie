@@ -27,6 +27,9 @@ int speed = 10;
 int speedMultiplier = 100;
 int selection = 0;
 int pauseScreen;
+int volume = 100;
+int music;
+int musicVolume = 100;
 
 void app::Begin(void)
 {
@@ -45,6 +48,9 @@ void app::Begin(void)
 	agk::SetSpriteColor(pauseScreen, 255, 110, 5, 255);
 	agk::SetSpritePosition(pauseScreen, 387, 259);
 	agk::SetSpriteVisible(pauseScreen, 0);
+
+	music = agk::LoadMusic("/assets/sounds/life_of_riley.mp3");
+	agk::PlayMusic(music, 1);
 }
 
 void app::Loop (void)
@@ -68,7 +74,7 @@ void app::Loop (void)
 				break;
 			case 1:
 				gameMode = 4;
-				selection = 1;
+				selection = 0;
 				menu->hideMenu();
 				menu->showMenu(1);
 				break;
@@ -80,8 +86,8 @@ void app::Loop (void)
 			}
 		}
 		break;
-	case 3:
-		if (agk::GetRawKeyPressed(32) == 1)
+	case 3://game over
+		if (agk::GetRawKeyPressed(13) == 1)
 		{
 			scoreBoard->hideFinalScore();
 			gameMode = 0;
@@ -98,35 +104,68 @@ void app::Loop (void)
 			selection = menu->changeSelection(-1);
 		}
 
-		if (selection == 2)
+		if (agk::GetRawKeyPressed(39) == 1)//right arrow
 		{
-			if (agk::GetRawKeyPressed(39) == 1)//right arrow
+			switch (selection)
 			{
+			case 2://sfxVolume
+				volume += 10;
+				if (volume > 100)
+					volume = 100;
+				menu->setSFXNumber(volume);
+				break;
+			case 3:
+				musicVolume += 10;
+				if (musicVolume > 100)
+					musicVolume = 100;
+				menu->setMusicNumber(musicVolume);
+				agk::SetMusicSystemVolume(volume);
+				break;
+			case 4:
 				speedMultiplier += 10;
 				menu->setSpeedNumber(speedMultiplier);
+				break;
 			}
-			else if (agk::GetRawKeyPressed(37) == 1)//left arrow
+		}
+		else if (agk::GetRawKeyPressed(37) == 1)//left arrow
+		{
+			switch (selection)
 			{
+			case 2://sfxVolume
+				volume -= 10;
+				if (volume < 0)
+					volume = 0;
+				menu->setSFXNumber(volume);
+				break;
+			case 3:
+				musicVolume -= 10;
+				if (musicVolume < 0)
+					musicVolume = 0;
+				menu->setMusicNumber(musicVolume);
+				agk::SetMusicSystemVolume(musicVolume);
+				break;
+			case 4:
 				speedMultiplier -= 10;
+				if (speedMultiplier < 0)
+					speedMultiplier = 0;
 				menu->setSpeedNumber(speedMultiplier);
+				break;
 			}
 		}
-		if (selection == 1)
+		else if (agk::GetRawKeyPressed(32) == 1)
 		{
-			if (agk::GetRawKeyPressed(32) == 1)
+			switch (selection)
 			{
-				menu->hideMenu();
-				gameMode = 7;
-				menu->showMenu(2);
-			}
-		}
-		if (selection == 0)
-		{
-			if (agk::GetRawKeyPressed(32) == 1)
-			{
+			case 0:
 				menu->hideMenu();
 				gameMode = 0;
 				menu->showMenu(0);
+				break;
+			case 1:
+				menu->hideMenu();
+				gameMode = 7;
+				menu->showMenu(2);
+				break;
 			}
 		}
 		break;
@@ -169,6 +208,11 @@ void app::Loop (void)
 			gameMode = 0;
 			scoreBoard->hideScores();
 			menu->showMenu(0);
+		}
+		if (agk::GetRawKeyPressed(46) == 1)//delete pressed
+		{
+			scoreBoard->resetHighScores();
+			scoreBoard->displayScores();
 		}
 		break;
 	case 7://how to play
@@ -258,7 +302,7 @@ void app::CheckCollisions()
 
 void app::newGame(int i)
 {
-	p1 = new player();
+	p1 = new player(volume);
 
 	for (int i = 0; i < numberObstacles; i++)
 	{
@@ -268,6 +312,7 @@ void app::newGame(int i)
 	}
 	gameMode = i;
 	start = std::clock();
+	duration = 0;
 	scoreBoard->showScore();
 	p1->setHealthVisible(1);
 }

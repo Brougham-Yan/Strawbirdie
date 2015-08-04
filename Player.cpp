@@ -1,7 +1,7 @@
 #include "Player.h"
 using namespace AGK;
 
-player::player()
+player::player(int vol)
 {
 	yPos = 250.0;
 	xPos = 150.0;
@@ -23,7 +23,6 @@ player::player()
 	size = 125;
 	agk::SetSpriteSize(playerSprite, size, -1);
 	agk::SetSpriteShape(playerSprite, 2);
-	//agk::SetSpriteColor(playerSprite, 255, 255, 255, 255);
 	agk::SetSpriteDepth(playerSprite, 25);
 	health = 3;
 	healthDisplay = agk::CreateText("3");
@@ -34,6 +33,10 @@ player::player()
 	invincibleTime = 0;
 	velocity = 0;
 	//add depth
+	volume = vol;
+	hitSound = agk::LoadSound("/assets/sounds/hit.wav");
+	healthSound = agk::LoadSound("/assets/sounds/health.wav");
+	pickupSound = agk::LoadSound("/assets/sounds/pickup.wav");
 }
 
 player::~player()
@@ -43,22 +46,10 @@ player::~player()
 
 void player::update()
 {
-	//if (agk::GetRawKeyState(40) == 1)//if pressing down
-	//	yPos += speed;
-	//if (agk::GetRawKeyState(38) == 1)//if pressing up
-	//	yPos -= speed;
-	//if (agk::GetRawKeyState(37) == 1)//if pressing left
-	//	xPos -= (speed / 1.5);
-	//if (agk::GetRawKeyState(39) == 1)//if pressing right
-	//	xPos += (speed * 1.5);
 	if (agk::GetRawKeyState(32) == 1)//if pressing up
 		velocity += 0.25;
 	else
 		velocity -= 0.12;
-	//if (agk::GetRawKeyState(39) == 1)//if pressing right
-	//	xPos += (speed * 1.5);
-	//else
-	//	xPos -= (speed / 1.5);
 	yPos -= velocity;
 
 	if (yPos < 0)
@@ -103,7 +94,10 @@ void player::addPoints(int points)
 	{
 		score -= 50;
 		health++;
+		agk::PlaySound(healthSound, volume);
 	}
+	else
+		agk::PlaySound(pickupSound, volume);
 }
 
 int player::getScore()
@@ -116,6 +110,7 @@ void player::loseHealth(int damage)
 	health -= damage;
 	std::string s = std::to_string(health);
 	agk::SetTextString(healthDisplay, s.c_str());
+	agk::PlaySound(hitSound, volume);
 }
 
 void player::gainHealth(int recovery)
@@ -125,6 +120,7 @@ void player::gainHealth(int recovery)
 		health = 5;
 	std::string s = std::to_string(health);
 	agk::SetTextString(healthDisplay, s.c_str());
+	agk::PlaySound(healthSound, volume);
 }
 
 int player::getHealth()

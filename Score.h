@@ -15,6 +15,7 @@ private:
 	int speedMultiplier;
 	int finalPoints;
 	int UI;
+	int gameOverScreen;
 public:
 	Score();
 	~Score();

@@ -11,15 +11,18 @@ private:
 	int speed; //vertical movement speed
 	int playerSprite;
 	int score;
-	//form
 	int health;
 	int healthDisplay;
 	int size;
 	int invincibleTime;
 	float velocity;
-	//food
+	int hitSound;
+	int healthSound;
+	int pickupSound;
+	int volume;
+
 public:
-	player();
+	player(int);
 	~player();
 	void update();
 	int getSprite();

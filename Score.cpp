@@ -24,7 +24,7 @@ Score::Score()
 	agk::SetSpriteVisible(background, 0);
 	pointDisplay = agk::CreateText("0");
 	agk::SetTextSize(pointDisplay, 40);
-	agk::SetTextDepth(pointDisplay, 1);
+	agk::SetTextDepth(pointDisplay, 3);
 	agk::SetTextPosition(pointDisplay, 325, 700);
 	agk::SetTextVisible(pointDisplay, 0);
 	UI = agk::CreateSprite(agk::LoadImage("/assets/background/UI.png"));

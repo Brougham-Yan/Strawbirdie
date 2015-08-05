@@ -43,10 +43,8 @@ void app::Begin(void)
 	bg = new background();
 	scoreBoard = new Score();
 	menu = new Menu();
-	pauseScreen = agk::CreateSprite(0);
-	agk::SetSpriteSize(pauseScreen, 250, 250);
-	agk::SetSpriteColor(pauseScreen, 255, 110, 5, 255);
-	agk::SetSpritePosition(pauseScreen, 387, 259);
+	pauseScreen = agk::CreateSprite(agk::LoadImage("assets/background/pause.png"));
+	agk::SetSpriteDepth(pauseScreen, 1);
 	agk::SetSpriteVisible(pauseScreen, 0);
 
 	music = agk::LoadMusic("/assets/sounds/life_of_riley.mp3");
@@ -60,28 +58,33 @@ void app::Loop (void)
 	{
 	case 0://main menu
 		if (agk::GetRawKeyPressed(38) == 1)
-			menu->changeSelection(1);
-		if (agk::GetRawKeyPressed(40) == 1)
 			menu->changeSelection(-1);
+		if (agk::GetRawKeyPressed(40) == 1)
+			menu->changeSelection(1);
 		if (agk::GetRawKeyPressed(32) == 1)
 		{
 			switch (menu->getSelection())
 			{
-			case 0:
+			case 0://new game
 				selection = 0;
 				newGame(5);
 				menu->hideMenu();
 				break;
-			case 1:
+			case 1://scores
+				gameMode = 6;
+				menu->hideMenu();
+				scoreBoard->displayScores();
+				break;
+			case 2://options
 				gameMode = 4;
 				selection = 0;
 				menu->hideMenu();
 				menu->showMenu(1);
 				break;
-			case 2:
-				gameMode = 6;
+			case 3://how to play
 				menu->hideMenu();
-				scoreBoard->displayScores();
+				gameMode = 7;
+				menu->showMenu(2);
 				break;
 			}
 		}
@@ -161,11 +164,6 @@ void app::Loop (void)
 				gameMode = 0;
 				menu->showMenu(0);
 				break;
-			case 1:
-				menu->hideMenu();
-				gameMode = 7;
-				menu->showMenu(2);
-				break;
 			}
 		}
 		break;
@@ -200,6 +198,12 @@ void app::Loop (void)
 				start = std::clock();
 				agk::SetSpriteVisible(pauseScreen, 0);
 			}
+			if (agk::GetRawKeyPressed(46) == 1)//delete pressed
+			{
+				selection = 0;
+				agk::SetSpriteVisible(pauseScreen, 0);
+				gameOver();
+			}
 		}
 			break;
 	case 6://high scores
@@ -218,8 +222,8 @@ void app::Loop (void)
 	case 7://how to play
 		if (agk::GetRawKeyPressed(32) == 1)
 		{
-			gameMode = 4;
-			menu->showMenu(1);
+			gameMode = 0;
+			menu->showMenu(0);
 			selection = menu->changeSelection(0);
 		}
 	

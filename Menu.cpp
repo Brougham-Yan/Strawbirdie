@@ -14,16 +14,19 @@ Menu::Menu()
 	options = agk::CreateText("Options");
 	highScores = agk::CreateText("High Scores");
 	howToPlay = agk::CreateText("How to Play");
+	credits = agk::CreateText("Credits");
 
 	agk::SetTextSize(startGame, 50);
 	agk::SetTextSize(options, 50);
 	agk::SetTextSize(highScores, 50);
 	agk::SetTextSize(howToPlay, 50);
+	agk::SetTextSize(credits, 50);
 
 	agk::SetTextPosition(startGame, 280, 150);
 	agk::SetTextPosition(highScores, 280, 250);
 	agk::SetTextPosition(options, 280, 350);
 	agk::SetTextPosition(howToPlay, 280, 450);
+	agk::SetTextPosition(credits, 280, 550);
 
 	agk::SetTextColor(startGame, 0, 255, 0, 255);
 
@@ -35,6 +38,7 @@ Menu::Menu()
 	sfxVolume = agk::CreateText("SFX Volume:");
 	sfxVolumeNumber = agk::CreateText("100");
 	tutorial = agk::CreateSprite(agk::LoadImage("/assets/background/howtoplay.png"));
+	creditsPage = agk::CreateSprite(agk::LoadImage("/assets/background/credits.png"));
 
 	agk::SetTextSize(back, 50);//options formatting
 	agk::SetTextSize(speedMultiplier, 40);
@@ -53,7 +57,8 @@ Menu::Menu()
 
 	agk::SetTextPosition(back, 280, 600);
 
-
+	agk::SetSpriteDepth(creditsPage, 3);
+	agk::SetSpriteVisible(creditsPage, 0);
 	agk::SetSpriteDepth(tutorial, 3);
 	agk::SetSpriteVisible(tutorial, 0);
 	agk::SetTextVisible(back, 0);
@@ -74,6 +79,9 @@ void Menu::hideMenu()
 	agk::SetTextVisible(options, 0);
 	agk::SetTextColor(highScores, 255, 255, 255, 255);
 	agk::SetTextVisible(highScores, 0);
+	agk::SetTextColor(credits, 255, 255, 255, 255);
+	agk::SetTextVisible(credits, 0);
+	agk::SetSpriteVisible(creditsPage, 0);
 	agk::SetTextColor(back, 255, 255, 255, 255);
 	agk::SetTextVisible(back, 0);
 	agk::SetTextColor(speedMultiplier, 255, 255, 255, 255);
@@ -107,6 +115,7 @@ void Menu::showMenu(int i)
 		agk::SetTextVisible(options, 1);
 		agk::SetTextVisible(highScores, 1);
 		agk::SetTextVisible(howToPlay, 1);
+		agk::SetTextVisible(credits, 1);
 		break;
 	case 1:
 		agk::SetSpriteVisible(menuBG, 1);
@@ -122,6 +131,9 @@ void Menu::showMenu(int i)
 	case 2:
 		agk::SetSpriteVisible(tutorial, 1);
 		break;
+	case 3:
+		agk::SetSpriteVisible(creditsPage, 1);
+		break;
 	}
 }
 
@@ -132,13 +144,14 @@ int Menu::changeSelection(int i)
 	{
 	case 0:
 		if (selection < 0)
-			selection = 3;
-		else if (selection > 3)
+			selection = 4;
+		else if (selection > 4)
 			selection = 0;
 		agk::SetTextColor(startGame, 255, 255, 255, 255);
 		agk::SetTextColor(options, 255, 255, 255, 255);
 		agk::SetTextColor(highScores, 255, 255, 255, 255);
 		agk::SetTextColor(howToPlay, 255, 255, 255, 255);
+		agk::SetTextColor(credits, 255, 255, 255, 255);
 
 		switch (selection)
 		{
@@ -153,6 +166,9 @@ int Menu::changeSelection(int i)
 			break;
 		case 3:
 			agk::SetTextColor(howToPlay, 0, 255, 0, 255);
+			break;
+		case 4:
+			agk::SetTextColor(credits, 0, 255, 0, 255);
 			break;
 		}
 		break;

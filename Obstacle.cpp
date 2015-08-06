@@ -46,7 +46,7 @@ void Obstacle::update()
 		agk::SetSpriteColorAlpha(sprite, alpha);
 	}
 
-	xPos -= ((speed * speedMultiplier) / 100);
+	xPos -= (speed * speedMultiplier / 100);
 	agk::SetSpritePosition(sprite, xPos, yPos);
 }
 

@@ -15,6 +15,6 @@ private:
 public:
 	background();
 	~background();
-	void setSpeed(int);
+	void setSpeed(int, int);
 	void update();
 };

@@ -23,7 +23,7 @@ double duration;//duration of the day
 int dayLength = 60;//seconds in each day
 int timeRemaining;
 int lastTick = 0;
-int speed = 10;
+int speed = 9;
 int speedMultiplier = 100;
 int selection = 0;
 int pauseScreen;
@@ -86,6 +86,10 @@ void app::Loop (void)
 				gameMode = 7;
 				menu->showMenu(2);
 				break;
+			case 4://credits
+				menu->hideMenu();
+				gameMode = 7;
+				menu->showMenu(3);
 			}
 		}
 		break;
@@ -111,22 +115,23 @@ void app::Loop (void)
 		{
 			switch (selection)
 			{
-			case 2://sfxVolume
+			case 1://sfxVolume
 				volume += 10;
 				if (volume > 100)
 					volume = 100;
 				menu->setSFXNumber(volume);
 				break;
-			case 3:
+			case 2:
 				musicVolume += 10;
 				if (musicVolume > 100)
 					musicVolume = 100;
 				menu->setMusicNumber(musicVolume);
 				agk::SetMusicSystemVolume(volume);
 				break;
-			case 4:
+			case 3:
 				speedMultiplier += 10;
 				menu->setSpeedNumber(speedMultiplier);
+				bg->setSpeed(speed, speedMultiplier);
 				break;
 			}
 		}
@@ -134,24 +139,25 @@ void app::Loop (void)
 		{
 			switch (selection)
 			{
-			case 2://sfxVolume
+			case 1://sfxVolume
 				volume -= 10;
 				if (volume < 0)
 					volume = 0;
 				menu->setSFXNumber(volume);
 				break;
-			case 3:
+			case 2:
 				musicVolume -= 10;
 				if (musicVolume < 0)
 					musicVolume = 0;
 				menu->setMusicNumber(musicVolume);
 				agk::SetMusicSystemVolume(musicVolume);
 				break;
-			case 4:
+			case 3:
 				speedMultiplier -= 10;
 				if (speedMultiplier < 0)
 					speedMultiplier = 0;
 				menu->setSpeedNumber(speedMultiplier);
+				bg->setSpeed(speed, speedMultiplier);
 				break;
 			}
 		}

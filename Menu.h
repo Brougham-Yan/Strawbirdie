@@ -8,6 +8,8 @@ private:
 	int startGame;
 	int options;
 	int highScores;
+	int credits;
+	int creditsPage;
 	int selection;
 	int menuType;
 	int back;

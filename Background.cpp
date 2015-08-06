@@ -30,17 +30,34 @@ background::background()
 	agk::SetSpritePosition(ground2, ground2x, 0);
 }
 
-void background::setSpeed(int i)
+void background::setSpeed(int i, int m)
 {
-	speed = i;
+	speed = i * m / 100;
 }
 
 void background::update()
 {
-	backGround1x -= (speed - 5);
-	backGround2x -= (speed - 5);
-	ground1x -= speed;
-	ground2x -= speed;
+	if (speed < 6)
+	{
+		backGround1x -= 1;
+		backGround2x -= 1;
+	}
+	else
+	{
+		backGround1x -= (speed - 5);
+		backGround2x -= (speed - 5);
+	}
+	if (speed < 1)
+	{
+		ground1x -= 1;
+		ground2x -= 1;
+	}
+	else
+	{
+		ground1x -= speed;
+		ground2x -= speed;
+	}
+
 
 	if (backGround1x < -1536)
 		backGround1x += 3072;

@@ -47,17 +47,23 @@ player::~player()
 void player::update()
 {
 	if (agk::GetRawKeyState(32) == 1)//if pressing up
-		velocity += 0.25;
+		velocity += 0.22;
 	else
-		velocity -= 0.12;
+		velocity -= 0.11;
 	yPos -= velocity;
 
 	if (yPos < 0)
-		velocity = (-velocity*.5) -2;
-		//velocity = (-5);
+	{
+		velocity = (-velocity*.5);
+		if(velocity > -4.5) 
+			velocity = (-4.5);
+	}
 	if (yPos > 768 - size - 50)
-		velocity = (-velocity*.5) +2;
-		//velocity = 3;
+	{
+		velocity = (-velocity*.5);
+		if (velocity < 2.7)
+			velocity = 2.7;
+	}
 	if (xPos < 150) 
 		xPos = 150;
 	if (xPos > 1024 - size) 

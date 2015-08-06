@@ -1,0 +1,9 @@
+Bird-"bevouliin"//CC0//http://opengameart.org/content/flappy-duck-sprite-sheets
+Monster-"bevouliin"//CC0//http://opengameart.org/content/bevouliin-free-flappy-monster-sprite-sheets
+strawberry-"Game Developer Studio//CC-BY 3.0//http://opengameart.org/content/six-fruits
+popsicle-"Game Developer Studio//CC-BY 3.0//http://opengameart.org/content/ice-pops
+background-"bevouliin"//CC0//http://opengameart.org/content/bevouliin-free-game-background-for-game-developers
+cloud- "Mineat"//CC-BY 3.0//http://opengameart.org/content/clouds-and-gust
+music- Life of Riley - Kevin MacLeod // CC-BY 3.0 // http://incompetech.com/music/royalty-free/index.html?isrc=USUAN1400054
+sfx- made using sfxr by "DrPetter" // http://www.drpetter.se/project_sfxr.html
+agk- C++ library used to make this game // http://appgamekit.com

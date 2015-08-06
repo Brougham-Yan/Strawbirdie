@@ -1,0 +1,4 @@
+# Strawbirdie
+A simple game made for the Indie Game Maker Contest 2015.
+See credits.txt for the 3rd party art/sound asset sources and the licenses they are released under
+Anyone is free to study and modify the code for educational purposes.

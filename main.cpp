@@ -121,6 +121,7 @@ void app::Loop (void)
 				if (volume > 100)
 					volume = 100;
 				menu->setSFXNumber(volume);
+				agk::PlaySound(agk::LoadSound("/assets/sounds/pickup.wav"), volume);
 				break;
 			case 2:
 				musicVolume += 10;
@@ -131,6 +132,8 @@ void app::Loop (void)
 				break;
 			case 3:
 				speedMultiplier += 10;
+				if (speedMultiplier > 200)
+					speedMultiplier = 200;
 				menu->setSpeedNumber(speedMultiplier);
 				bg->setSpeed(speed, speedMultiplier);
 				break;
@@ -145,6 +148,7 @@ void app::Loop (void)
 				if (volume < 0)
 					volume = 0;
 				menu->setSFXNumber(volume);
+				agk::PlaySound(agk::LoadSound("/assets/sounds/pickup.wav"), volume);
 				break;
 			case 2:
 				musicVolume -= 10;
@@ -155,8 +159,8 @@ void app::Loop (void)
 				break;
 			case 3:
 				speedMultiplier -= 10;
-				if (speedMultiplier < 0)
-					speedMultiplier = 0;
+				if (speedMultiplier < 50)
+					speedMultiplier = 50;
 				menu->setSpeedNumber(speedMultiplier);
 				bg->setSpeed(speed, speedMultiplier);
 				break;

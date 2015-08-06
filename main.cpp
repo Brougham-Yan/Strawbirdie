@@ -36,6 +36,7 @@ void app::Begin(void)
 	Aspect = ((float)agk::GetDeviceWidth() / agk::GetDeviceHeight());
 	agk::SetVirtualResolution (1024, 768);
 	agk::SetClearColor( 151,170,204 ); // light blue
+	agk::SetWindowTitle("Strawbirdie");
 	agk::SetSyncRate(60,0);//max FPS?
 	agk::SetScissor(0,0,0,0);//???
 	agk::SetRandomSeed(agk::GetMilliseconds()); //seed the RNG based on system clock
@@ -53,7 +54,7 @@ void app::Begin(void)
 
 void app::Loop (void)
 {
-	agk::Print(agk::ScreenFPS());
+	//agk::Print(agk::ScreenFPS());
 	switch (gameMode)
 	{
 	case 0://main menu

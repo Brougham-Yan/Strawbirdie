@@ -14,7 +14,7 @@
     <ProjectGuid>{147BF424-49C6-4C6D-A6F1-A38D1A0850DA}</ProjectGuid>
     <RootNamespace>SmackIt</RootNamespace>
     <Keyword>Win32Proj</Keyword>
-    <ProjectName>Game</ProjectName>
+    <ProjectName>Strawbirdie</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
